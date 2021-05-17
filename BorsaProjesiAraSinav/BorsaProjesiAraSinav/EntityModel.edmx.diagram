@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="30f161186e0849088dcd6add176171a9" Name="Diagram1">
+        <EntityTypeShape EntityType="DatabaseModel.Kullanici" Width="1.5" PointX="0.625" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.KullaniciTalep" Width="1.5" PointX="3.625" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.KullaniciUrun" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.sysdiagram" Width="1.5" PointX="5.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Talep" Width="1.5" PointX="3.875" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Urun" Width="1.5" PointX="1.375" PointY="5.625" IsExpanded="true" />
+        <AssociationConnector Association="DatabaseModel.FK_KullaniciTalep_Kullanici" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.FK_KullaniciUrun_Kullanici" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.FK_KullaniciTalep_Talep" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.FK_KullaniciUrun_Urun" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

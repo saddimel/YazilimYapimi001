@@ -1,0 +1,377 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Kullanici">
+          <Key>
+            <PropertyRef Name="Kullaniciadi" />
+          </Key>
+          <Property Name="Kullaniciadi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sifre" Type="nvarchar" MaxLength="50" />
+          <Property Name="Ad" Type="nvarchar" MaxLength="50" />
+          <Property Name="Soyad" Type="nvarchar" MaxLength="50" />
+          <Property Name="TC" Type="nvarchar" MaxLength="50" />
+          <Property Name="Telefon" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Adres" Type="nvarchar" MaxLength="50" />
+          <Property Name="Bakiye" Type="int" />
+          <Property Name="OnayBakiye" Type="int" />
+        </EntityType>
+        <EntityType Name="KullaniciTalep">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KullaniciAdi" Type="nvarchar" MaxLength="50" />
+          <Property Name="TalepId" Type="int" />
+        </EntityType>
+        <EntityType Name="KullaniciUrun">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Kullaniciadi" Type="nvarchar" MaxLength="50" />
+          <Property Name="UrunId" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Talep">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UrunAdi" Type="nvarchar" MaxLength="50" />
+          <Property Name="TalepMiktari" Type="int" />
+        </EntityType>
+        <EntityType Name="Urun">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UrunAdi" Type="nvarchar" MaxLength="50" />
+          <Property Name="Miktar" Type="int" />
+          <Property Name="BirimFiyat" Type="int" />
+          <Property Name="Onay" Type="int" />
+        </EntityType>
+        <Association Name="FK_KullaniciTalep_Kullanici">
+          <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="0..1" />
+          <End Role="KullaniciTalep" Type="Self.KullaniciTalep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanici">
+              <PropertyRef Name="Kullaniciadi" />
+            </Principal>
+            <Dependent Role="KullaniciTalep">
+              <PropertyRef Name="KullaniciAdi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KullaniciTalep_Talep">
+          <End Role="Talep" Type="Self.Talep" Multiplicity="0..1" />
+          <End Role="KullaniciTalep" Type="Self.KullaniciTalep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Talep">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="KullaniciTalep">
+              <PropertyRef Name="TalepId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KullaniciUrun_Kullanici">
+          <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="0..1" />
+          <End Role="KullaniciUrun" Type="Self.KullaniciUrun" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanici">
+              <PropertyRef Name="Kullaniciadi" />
+            </Principal>
+            <Dependent Role="KullaniciUrun">
+              <PropertyRef Name="Kullaniciadi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KullaniciUrun_Urun">
+          <End Role="Urun" Type="Self.Urun" Multiplicity="0..1" />
+          <End Role="KullaniciUrun" Type="Self.KullaniciUrun" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urun">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="KullaniciUrun">
+              <PropertyRef Name="UrunId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DatabaseModelStoreContainer">
+          <EntitySet Name="Kullanici" EntityType="Self.Kullanici" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KullaniciTalep" EntityType="Self.KullaniciTalep" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KullaniciUrun" EntityType="Self.KullaniciUrun" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Talep" EntityType="Self.Talep" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Urun" EntityType="Self.Urun" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_KullaniciTalep_Kullanici" Association="Self.FK_KullaniciTalep_Kullanici">
+            <End Role="Kullanici" EntitySet="Kullanici" />
+            <End Role="KullaniciTalep" EntitySet="KullaniciTalep" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KullaniciTalep_Talep" Association="Self.FK_KullaniciTalep_Talep">
+            <End Role="Talep" EntitySet="Talep" />
+            <End Role="KullaniciTalep" EntitySet="KullaniciTalep" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KullaniciUrun_Kullanici" Association="Self.FK_KullaniciUrun_Kullanici">
+            <End Role="Kullanici" EntitySet="Kullanici" />
+            <End Role="KullaniciUrun" EntitySet="KullaniciUrun" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KullaniciUrun_Urun" Association="Self.FK_KullaniciUrun_Urun">
+            <End Role="Urun" EntitySet="Urun" />
+            <End Role="KullaniciUrun" EntitySet="KullaniciUrun" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Kullanici">
+          <Key>
+            <PropertyRef Name="Kullaniciadi" />
+          </Key>
+          <Property Name="Kullaniciadi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Sifre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Ad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Soyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TC" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Telefon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Adres" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Bakiye" Type="Int32" />
+          <Property Name="OnayBakiye" Type="Int32" />
+          <NavigationProperty Name="Talepler" Relationship="Self.FK_KullaniciTalep_Kullanici" FromRole="Kullanici" ToRole="KullaniciTalep" />
+          <NavigationProperty Name="Urunler" Relationship="Self.FK_KullaniciUrun_Kullanici" FromRole="Kullanici" ToRole="KullaniciUrun" />
+        </EntityType>
+        <EntityType Name="KullaniciTalep">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KullaniciAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TalepId" Type="Int32" />
+          <NavigationProperty Name="Kullanici" Relationship="Self.FK_KullaniciTalep_Kullanici" FromRole="KullaniciTalep" ToRole="Kullanici" />
+          <NavigationProperty Name="Talep" Relationship="Self.FK_KullaniciTalep_Talep" FromRole="KullaniciTalep" ToRole="Talep" />
+        </EntityType>
+        <EntityType Name="KullaniciUrun">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Kullaniciadi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UrunId" Type="Int32" />
+          <NavigationProperty Name="Kullanici" Relationship="Self.FK_KullaniciUrun_Kullanici" FromRole="KullaniciUrun" ToRole="Kullanici" />
+          <NavigationProperty Name="Urun" Relationship="Self.FK_KullaniciUrun_Urun" FromRole="KullaniciUrun" ToRole="Urun" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Talep">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UrunAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TalepMiktari" Type="Int32" />
+          <NavigationProperty Name="KullaniciTalepleri" Relationship="Self.FK_KullaniciTalep_Talep" FromRole="Talep" ToRole="KullaniciTalep" />
+        </EntityType>
+        <EntityType Name="Urun">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UrunAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Miktar" Type="Int32" />
+          <Property Name="BirimFiyat" Type="Int32" />
+          <Property Name="Onay" Type="Int32" />
+          <NavigationProperty Name="KullaniciUrunleri" Relationship="Self.FK_KullaniciUrun_Urun" FromRole="Urun" ToRole="KullaniciUrun" />
+        </EntityType>
+        <Association Name="FK_KullaniciTalep_Kullanici">
+          <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="0..1" />
+          <End Role="KullaniciTalep" Type="Self.KullaniciTalep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanici">
+              <PropertyRef Name="Kullaniciadi" />
+            </Principal>
+            <Dependent Role="KullaniciTalep">
+              <PropertyRef Name="KullaniciAdi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KullaniciUrun_Kullanici">
+          <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="0..1" />
+          <End Role="KullaniciUrun" Type="Self.KullaniciUrun" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanici">
+              <PropertyRef Name="Kullaniciadi" />
+            </Principal>
+            <Dependent Role="KullaniciUrun">
+              <PropertyRef Name="Kullaniciadi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KullaniciTalep_Talep">
+          <End Role="Talep" Type="Self.Talep" Multiplicity="0..1" />
+          <End Role="KullaniciTalep" Type="Self.KullaniciTalep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Talep">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="KullaniciTalep">
+              <PropertyRef Name="TalepId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KullaniciUrun_Urun">
+          <End Role="Urun" Type="Self.Urun" Multiplicity="0..1" />
+          <End Role="KullaniciUrun" Type="Self.KullaniciUrun" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urun">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="KullaniciUrun">
+              <PropertyRef Name="UrunId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DatabaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Kullanicilar" EntityType="Self.Kullanici" />
+          <EntitySet Name="KullaniciTalepleri" EntityType="Self.KullaniciTalep" />
+          <EntitySet Name="KullaniciUrunleri" EntityType="Self.KullaniciUrun" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Talepler" EntityType="Self.Talep" />
+          <EntitySet Name="Urunler" EntityType="Self.Urun" />
+          <AssociationSet Name="FK_KullaniciTalep_Kullanici" Association="Self.FK_KullaniciTalep_Kullanici">
+            <End Role="Kullanici" EntitySet="Kullanicilar" />
+            <End Role="KullaniciTalep" EntitySet="KullaniciTalepleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KullaniciUrun_Kullanici" Association="Self.FK_KullaniciUrun_Kullanici">
+            <End Role="Kullanici" EntitySet="Kullanicilar" />
+            <End Role="KullaniciUrun" EntitySet="KullaniciUrunleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KullaniciTalep_Talep" Association="Self.FK_KullaniciTalep_Talep">
+            <End Role="Talep" EntitySet="Talepler" />
+            <End Role="KullaniciTalep" EntitySet="KullaniciTalepleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KullaniciUrun_Urun" Association="Self.FK_KullaniciUrun_Urun">
+            <End Role="Urun" EntitySet="Urunler" />
+            <End Role="KullaniciUrun" EntitySet="KullaniciUrunleri" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DatabaseModelStoreContainer" CdmEntityContainer="DatabaseEntities">
+          <EntitySetMapping Name="Kullanicilar">
+            <EntityTypeMapping TypeName="DatabaseModel.Kullanici">
+              <MappingFragment StoreEntitySet="Kullanici">
+                <ScalarProperty Name="Kullaniciadi" ColumnName="Kullaniciadi" />
+                <ScalarProperty Name="Sifre" ColumnName="Sifre" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="Soyad" ColumnName="Soyad" />
+                <ScalarProperty Name="TC" ColumnName="TC" />
+                <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Adres" ColumnName="Adres" />
+                <ScalarProperty Name="Bakiye" ColumnName="Bakiye" />
+                <ScalarProperty Name="OnayBakiye" ColumnName="OnayBakiye" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KullaniciTalepleri">
+            <EntityTypeMapping TypeName="DatabaseModel.KullaniciTalep">
+              <MappingFragment StoreEntitySet="KullaniciTalep">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="KullaniciAdi" ColumnName="KullaniciAdi" />
+                <ScalarProperty Name="TalepId" ColumnName="TalepId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KullaniciUrunleri">
+            <EntityTypeMapping TypeName="DatabaseModel.KullaniciUrun">
+              <MappingFragment StoreEntitySet="KullaniciUrun">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Kullaniciadi" ColumnName="Kullaniciadi" />
+                <ScalarProperty Name="UrunId" ColumnName="UrunId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DatabaseModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Talepler">
+            <EntityTypeMapping TypeName="DatabaseModel.Talep">
+              <MappingFragment StoreEntitySet="Talep">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UrunAdi" ColumnName="UrunAdi" />
+                <ScalarProperty Name="TalepMiktari" ColumnName="TalepMiktari" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Urunler">
+            <EntityTypeMapping TypeName="DatabaseModel.Urun">
+              <MappingFragment StoreEntitySet="Urun">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UrunAdi" ColumnName="UrunAdi" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="BirimFiyat" ColumnName="BirimFiyat" />
+                <ScalarProperty Name="Onay" ColumnName="Onay" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
